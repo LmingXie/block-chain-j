@@ -2,6 +2,7 @@ package org.lmx.common.crypto;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.crypto.*;
@@ -29,7 +30,7 @@ import java.security.spec.InvalidKeySpecException;
  * @create: 2020-03-31 09:32
  **/
 @Slf4j
-public class DESCipherUtil {
+public class DesUtils {
     private static final String DES = "DES";
 
     /**
