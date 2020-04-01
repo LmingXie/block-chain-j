@@ -125,9 +125,8 @@ public class MerkleTree {
         parent.setRight(right);
 
         String lh = left.getHash();
-        String rh = right.getHash();
 
-        String hash = ObjectUtil.isEmpty(right) ? lh : doubleSHA256(lh, rh);
+        String hash = ObjectUtil.isEmpty(right) ? lh : doubleSHA256(lh, right.getHash());
 
         parent.setData(hash);
         parent.setHash(hash);
