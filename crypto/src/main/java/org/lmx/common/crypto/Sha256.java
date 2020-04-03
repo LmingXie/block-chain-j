@@ -19,9 +19,8 @@ public class Sha256 {
      */
     private static final int[] H0 = {0x6a09e667, 0xbb67ae85, 0x3c6ef372,
             0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19};
-
     /**
-     * 初始化常量：64个常数
+     * 初始化常量：64个常数密钥
      * <pre>
      *     取自自然数中前面64个素数的 “<strong>立方根</strong>” 的小数部分的前32位,
      *     用16进制表示, 则相应的常数序列如下:
@@ -84,7 +83,7 @@ public class Sha256 {
          原文：break chunk into sixteen 32-bit big-endian words w[0], …, w[15].
          译文：对于每一块，将块分解为16个32-bit的big-endian的字，记为w[0], …, w[15]。
 
-          将“字”转换成“块”，即将“字”数组，按每16个字一个“块”进行组装。一个“块” = 512 bit = 15 word字。
+          将“字”转换成“块”，即将“字”数组，按每16个字一个“块”进行组装。一个“块” = 512 bit = 16 word字。
           代码中通过除以16来表示一个“块”，并没有真实创建“块”。
          */
         for (int i = 0, n = words.length / 16; i < n; ++i) {
@@ -99,6 +98,7 @@ public class Sha256 {
                最后将得到64个“字”。
              */
             for (int t = 16; t < W.length; ++t) {
+                // 根据加法交换律，修改先后顺序不印象最终结果
                 W[t] = smallSig1(W[t - 2])
                         + W[t - 7]
                         + smallSig0(W[t - 15])
@@ -108,7 +108,6 @@ public class Sha256 {
             /*
                3、循环对“块”加密：也就是说循环64次。
                例如：对“abc”加密时，就相当于依次对 c、b、a进行加密，c的加密结果，保存到a位置
-
              */
 
             // 设 TEMP = H，H是初始变量，即8个初始hash值，也就是前8个质数的平方根的前32bit位。
@@ -179,7 +178,7 @@ public class Sha256 {
         final int blockBits = 512;
         final int blockBytes = blockBits / 8;
 
-        // 新消息长度：原始长度 + (补位的)1位 + 填充8字节长度
+        // 新消息长度：原始长度 + (补位的)1位 + 填充8字节长度（也就是64bit）
         int newMessageLength = message.length + 1 + 8;
         int padBytes = blockBytes - (newMessageLength % blockBytes);
         newMessageLength += padBytes;
