@@ -11,6 +11,7 @@
     <description>从Java角度开区块链</description>
     <modules>
         <module>crypto</module>
+        <module>framework</module>
     </modules>
 
     <parent>
